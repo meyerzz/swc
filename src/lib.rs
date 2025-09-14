@@ -71,7 +71,7 @@ impl Compiler {
         cfg: codegen::Config,
     ) -> io::Result<(String, sourcemap::SourceMap)> {
         self.run(|| {
-            let mut src_map_builder = SourceMapBuilder::new(None);
+            let mut src_map_builder = SourceMapBuilder::new(js);
             let src = {
                 let mut buf = vec![];
                 {
@@ -91,7 +91,7 @@ impl Compiler {
 
                     emitter.emit_module(&module)?;
                 }
-                String::from_utf8(buf).unwrap()
+                String::from_utf8(buf).wrap()
             };
             Ok((src, src_map_builder.into_sourcemap()))
         })
